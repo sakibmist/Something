@@ -93,5 +93,23 @@ namespace Todo.Api.Controllers
                 return BadRequest("Error occured");
             }
         }
+
+        [HttpPut("toggle-complete/{id}")]
+        public IActionResult UpdateCheckBoxFlag( int id){
+            try
+            {
+                var data = _dataContext.Items.FirstOrDefault(x=> x.Id == id);
+                if (data == null) return NotFound();
+                data.IsDoneFlag = !data.IsDoneFlag;
+                _dataContext.Update(data);
+                _dataContext.SaveChanges();
+                return NoContent();
+            }
+            catch (System.Exception)
+            {
+                
+                return BadRequest();
+            }
+        }
     }
 }
